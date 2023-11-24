@@ -7,8 +7,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet weak var awayTextField: UITextField!
+    @IBOutlet weak var homeTextField: UITextField!
     @IBOutlet weak var AwayPlainLabel: UILabel!
     
     @IBOutlet weak var AwayLabel: UILabel!
@@ -82,8 +84,21 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var awayStatsPane: UIStackView!
     
+    
+    @IBOutlet var HomeServeReceiveLabels: [UILabel]!
+    
+    @IBOutlet var AwayServeReceiveLabels: [UILabel]!
+    
+    
     override func viewWillAppear(_ animated: Bool) {
        
+        homeStatsLabels.sort(by:{ $0.tag < $1.tag})
+        awayStatsLabels.sort(by:{ $0.tag < $1.tag})
+        
+        HomeServeReceiveLabels.sort(by:{ $0.tag < $1.tag})
+        
+        AwayServeReceiveLabels.sort(by:{ $0.tag < $1.tag})
+        
         for but in minusButtonOutlets{
             but.titleLabel?.text = ""
         }
@@ -106,7 +121,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        homeTextField.delegate = self
+        awayTextField.delegate = self
         //  OuterStackView.distribution = .fillEqually
         // HomeButton.showsMenuAsPrimaryAction = false
         // AwayButton.showsMenuAsPrimaryAction = false
@@ -215,6 +231,12 @@ class ViewController: UIViewController {
             
         ])
         
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("textfield should return")
+        textField.resignFirstResponder()
+        return true
     }
     
     func awayServeMinusAction(selected: String){
@@ -434,6 +456,14 @@ class ViewController: UIViewController {
     func updateStats(){
         for i in 0 ..< homeStatsLabels.count{
             homeStatsLabels[i].text = "\(homeStats[i])"
+        }
+        
+        for i in 0 ..< HomeServeReceiveLabels.count{
+            HomeServeReceiveLabels[i].text = "\(homeServeReceives[i+1])"
+        }
+        
+        for i in 0 ..< AwayServeReceiveLabels.count{
+            AwayServeReceiveLabels[i].text = "\(awayServeReceives[i+1])"
         }
         
         for i in 0 ..< awayStatsLabels.count{
