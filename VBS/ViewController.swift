@@ -9,6 +9,12 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var AwayPlainLabel: UILabel!
+    
+    @IBOutlet weak var AwayLabel: UILabel!
+    @IBOutlet weak var HomeLabel: UILabel!
+    @IBOutlet weak var HomePlainLabel: UILabel!
+    
     @IBOutlet var minusButtonOutlets: [UIButton]!
     
     @IBOutlet weak var awayServeMinusOutlet: UIButton!
@@ -262,8 +268,7 @@ class ViewController: UIViewController {
 
     func homeAction(selected: String){
         homeScore+=1
-        HomeButton.setTitle("\(homeScore)", for: .normal)
-        HomeButton.setTitle("\(homeScore)", for: .selected)
+        HomeLabel.text = "\(homeScore)"
         
         switch selected {
         case "Kill":
@@ -292,8 +297,7 @@ class ViewController: UIViewController {
     
     func homeActionUndo(selected: String){
         homeScore-=1
-        HomeButton.setTitle("\(homeScore)", for: .normal)
-        HomeButton.setTitle("\(homeScore)", for: .selected)
+        HomeLabel.text = "\(homeScore)"
         switch selected {
         case "Kill undo":
             homeStats[0]-=1
@@ -321,8 +325,7 @@ class ViewController: UIViewController {
     
     func awayActionUndo(selected: String){
         awayScore-=1
-        AwayButton.setTitle("\(awayScore)", for: .normal)
-        AwayButton.setTitle("\(awayScore)", for: .selected)
+        AwayLabel.text = "\(awayScore)"
         switch selected {
         case "Kill undo":
             awayStats[0]-=1
@@ -350,8 +353,7 @@ class ViewController: UIViewController {
     
     func awayAction(selected: String){
         awayScore+=1
-        AwayButton.setTitle("\(awayScore)", for: .normal)
-        AwayButton.setTitle("\(awayScore)", for: .selected)
+        AwayLabel.text = "\(awayScore)"
         
         switch selected {
         case "Kill":
@@ -458,8 +460,8 @@ class ViewController: UIViewController {
             AwayPlainView.isHidden = false
             HomeButtonPlain.isHidden = false
             AwayButtonPlain.isHidden = false
-            HomeButtonPlain.setTitle("\(homeScore)", for: .normal)
-            AwayButtonPlain.setTitle("\(awayScore)", for: .normal)
+            HomePlainLabel.text = "\(homeScore)"
+            AwayPlainLabel.text = "\(awayScore)"
         case 1:
             HomePlainView.isHidden = true
             AwayPlainView.isHidden = true
@@ -470,10 +472,10 @@ class ViewController: UIViewController {
             HomeButton.isHidden = false
             AwayButton.isHidden = false
             HomeButton.showsMenuAsPrimaryAction = true
-            HomeButton.setTitle("\(homeScore)", for: .normal)
+            HomeLabel.text = "\(homeScore)"
             
             AwayButton.showsMenuAsPrimaryAction = true
-            AwayButton.setTitle("\(awayScore)", for: .normal)
+            AwayLabel.text = "\(awayScore)"
             
             homeSidePane.isHidden = true
             awaySidePane.isHidden = true
@@ -493,9 +495,9 @@ class ViewController: UIViewController {
             HomeButton.isHidden = false
             AwayButton.isHidden = false
             HomeButton.showsMenuAsPrimaryAction = true
-            HomeButton.setTitle("\(homeScore)", for: .normal)
+            HomeLabel.text = "\(homeScore)"
             AwayButton.showsMenuAsPrimaryAction = true
-            AwayButton.setTitle("\(awayScore)", for: .normal)
+            AwayLabel.text = "\(awayScore)"
             
             homeSidePane.isHidden = false
             awaySidePane.isHidden = false
@@ -514,15 +516,14 @@ class ViewController: UIViewController {
     @IBAction func homeScoreAction(_ sender: UIButton) {
         print("homeScoreAction")
         homeScore += 1
-        HomeButtonPlain.setTitle("\(homeScore)", for: .normal)
-        HomeButtonPlain.setTitle("\(homeScore)", for: .selected)
+        HomePlainLabel.text = "\(homeScore)"
+       
     }
     
     @IBAction func awayScoreAction(_ sender: Any) {
         print("awayScoreAction")
         awayScore += 1
-        AwayButtonPlain.setTitle("\(awayScore)", for: .normal)
-        AwayButtonPlain.setTitle("\(awayScore)", for: .selected)
+        AwayPlainLabel.text = "\(awayScore)"
     }
     
     
@@ -539,10 +540,9 @@ class ViewController: UIViewController {
             self.homeServeReceives = [0,0,0,0]
             self.awayServeReceives = [0,0,0,0]
             self.updateStats()
-            self.HomeButton.setTitle("\(self.homeScore)", for: .normal)
-            self.HomeButtonPlain.setTitle("\(self.homeScore)", for: .normal)
-            self.AwayButton.setTitle("\(self.homeScore)", for: .normal)
-            self.AwayButtonPlain.setTitle("\(self.homeScore)", for: .normal)
+            self.HomeLabel.text = "\(self.homeScore)"
+            self.HomePlainLabel.text = "\(self.homeScore)"
+            self.AwayPlainLabel.text = "\(self.awayScore)"
             
         }
         let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
@@ -581,8 +581,7 @@ class ViewController: UIViewController {
         print("homeminus")
         if homeScore > 0{
             homeScore-=1
-            HomeButtonPlain.setTitle("\(homeScore)", for: .normal)
-            HomeButtonPlain.setTitle("\(homeScore)", for: .selected)
+            HomePlainLabel.text = "\(homeScore)"
         }
     }
     
@@ -590,8 +589,7 @@ class ViewController: UIViewController {
     @IBAction func awayMinusAction(_ sender: UIButton) {
         if awayScore > 0{
             awayScore-=1
-            AwayButtonPlain.setTitle("\(awayScore)", for: .normal)
-            AwayButtonPlain.setTitle("\(awayScore)", for: .selected)
+            AwayPlainLabel.text = "\(awayScore)"
         }
     }
     
