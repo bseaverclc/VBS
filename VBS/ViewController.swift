@@ -296,26 +296,51 @@ class ViewController: UIViewController {
     }
     
     func homeActionUndo(selected: String){
-        homeScore-=1
+        if homeScore > 0{
+            homeScore-=1
+        }
         HomeLabel.text = "\(homeScore)"
         switch selected {
         case "Kill undo":
-            homeStats[0]-=1
-            homeStats[6]-=1
+            if homeStats[0]>0{
+                homeStats[0]-=1
+            }
+            if homeStats[6]>0{
+                homeStats[6]-=1
+            }
         case "Block undo":
-            homeStats[1]-=1
-            awayStats[3]-=1
-            awayStats[6]-=1
+            if homeStats[1]>0{
+                homeStats[1]-=1
+            }
+            if awayStats[3]>0{
+                awayStats[3]-=1
+            }
+            if awayStats[6]>0{
+                awayStats[6]-=1
+            }
         case "Ace undo":
-            homeStats[2]-=1
-            awayServeReceives[0]-=1
+            if homeStats[2]>0{
+                homeStats[2]-=1
+            }
+            if awayServeReceives[0]>0{
+                awayServeReceives[0]-=1
+            }
         case "Opponent Attk Err undo":
-            awayStats[3]-=1
-            awayStats[6]-=1
+            
+            if awayStats[3]>0{
+                awayStats[3]-=1
+            }
+            if awayStats[6]>0{
+                awayStats[6]-=1
+            }
         case "Opponent Srv Err undo":
-            awayStats[4]-=1
+            if awayStats[4]>0{
+                awayStats[4]-=1
+            }
         case "Opp Other Err undo":
-            awayStats[5]-=1
+            if awayStats[5]>0{
+                awayStats[5]-=1
+            }
         default:
             print("nothing")
         }
@@ -324,26 +349,50 @@ class ViewController: UIViewController {
     }
     
     func awayActionUndo(selected: String){
-        awayScore-=1
+        if awayScore > 0{
+            awayScore-=1
+        }
         AwayLabel.text = "\(awayScore)"
         switch selected {
         case "Kill undo":
-            awayStats[0]-=1
-            awayStats[6]-=1
+            if awayStats[0]>0{
+                awayStats[0]-=1
+            }
+            if awayStats[6]>0{
+                awayStats[6]-=1
+            }
         case "Block undo":
-            awayStats[1]-=1
-            homeStats[3]-=1
-            homeStats[6]-=1
+            if awayStats[1]>0{
+                awayStats[1]-=1
+            }
+            if homeStats[3]>0{
+                homeStats[3]-=1
+            }
+            if homeStats[6]>0{
+                homeStats[6]-=1
+            }
         case "Ace undo":
-            awayStats[2]-=1
-            homeServeReceives[0]-=1
+            if awayStats[2]>0{
+                awayStats[2]-=1
+            }
+            if homeServeReceives[0]>0{
+                homeServeReceives[0]-=1
+            }
         case "Opponent Attk Err undo":
-            homeStats[3]-=1
-            homeStats[6]-=1
+            if homeStats[3]>0{
+                homeStats[3]-=1
+            }
+            if homeStats[6]>0{
+                homeStats[6]-=1
+            }
         case "Opponent Srv Err undo":
-            homeStats[4]-=1
+            if homeStats[4]>0{
+                homeStats[4]-=1
+            }
         case "Opp Other Err undo":
-            homeStats[5]-=1
+            if homeStats[5]>0{
+                homeStats[5]-=1
+            }
         default:
             print("nothing")
         }
@@ -352,7 +401,9 @@ class ViewController: UIViewController {
     }
     
     func awayAction(selected: String){
-        awayScore+=1
+        if awayScore>0{
+            awayScore+=1
+        }
         AwayLabel.text = "\(awayScore)"
         
         switch selected {
@@ -595,25 +646,33 @@ class ViewController: UIViewController {
     
     
     @IBAction func homeAttackMinus(_ sender: UIButton) {
-        homeStats[6]-=1
-        updateStats()
+        if homeStats[6]>0{
+            homeStats[6]-=1
+            updateStats()
+        }
     }
     
     @IBAction func homeDigsMinus(_ sender: UIButton) {
-        homeStats[7]-=1
-        updateStats()
+        if homeStats[7]>0{
+            homeStats[7]-=1
+            updateStats()
+        }
     }
     
     
     @IBAction func awayAttacksMinus(_ sender: UIButton) {
-        awayStats[6]-=1
-        updateStats()
+        if awayStats[6]>0{
+            awayStats[6]-=1
+            updateStats()
+        }
     }
     
     
     @IBAction func awayDigsMinus(_ sender: UIButton) {
-        awayStats[7]-=1
-        updateStats()
+        if awayStats[7]>0{
+            awayStats[7]-=1
+            updateStats()
+        }
     }
     
     
