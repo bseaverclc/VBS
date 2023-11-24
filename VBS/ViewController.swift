@@ -401,9 +401,7 @@ class ViewController: UIViewController {
     }
     
     func awayAction(selected: String){
-        if awayScore>0{
-            awayScore+=1
-        }
+        awayScore+=1
         AwayLabel.text = "\(awayScore)"
         
         switch selected {
