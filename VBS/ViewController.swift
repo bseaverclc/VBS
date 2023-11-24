@@ -9,8 +9,12 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet var minusButtonOutlets: [UIButton]!
     
-   
+    @IBOutlet weak var awayServeMinusOutlet: UIButton!
+    
+    @IBOutlet weak var homeServeMinusOutlet: UIButton!
+    @IBOutlet weak var HomeServeReceiveMinus: UIButton!
     @IBOutlet weak var HomeMoreStatsView: UIStackView!
     
    
@@ -42,6 +46,10 @@ class ViewController: UIViewController {
     var awayScore = 0
     var homeStats = [0,0,0,0,0,0,0,0]
     var awayStats = [0,0,0,0,0,0,0,0]
+    var homeServeReceives = [0,0,0,0]
+    var awayServeReceives = [0,0,0,0]
+    
+    
    
     @IBOutlet weak var homeKillPctLabel: UILabel!
     
@@ -70,6 +78,14 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
        
+        for but in minusButtonOutlets{
+            but.titleLabel?.text = ""
+        }
+        
+        homeServeMinusOutlet.titleLabel?.text = ""
+        awayServeMinusOutlet.titleLabel?.text = ""
+        
+        
         //centerPanel.removeConstraints(centerPanel.constraints)
         //centerPanel.widthAnchor.constraint(equalTo: OuterStackView.widthAnchor, multiplier: 1.0).isActive = true
         homeSidePane.isHidden = true
@@ -102,6 +118,38 @@ class ViewController: UIViewController {
             self.homeActionUndo(selected: selection)
             
         }
+        
+        let homeServeMinusClosure = {(action: UIAction) in
+            var selection = action.title
+            self.homeServeMinusAction(selected: selection)
+            print("homeclosure")
+            self.homeServeMinusOutlet.titleLabel?.text = ""
+            
+        }
+        
+        let awayServeMinusClosure = {(action: UIAction) in
+            var selection = action.title
+            self.awayServeMinusAction(selected: selection)
+            print("awayclosure")
+            self.awayServeMinusOutlet.titleLabel?.text = ""
+            
+        }
+        
+        
+        
+        HomeServeReceiveMinus.menu = UIMenu(children: [
+            UIAction(title: "1 undo", state: .on, handler: homeServeMinusClosure),
+            UIAction(title: "2 undo", handler: homeServeMinusClosure),
+            UIAction(title: "3 undo", handler: homeServeMinusClosure),
+           
+        ])
+        
+        awayServeMinusOutlet.menu = UIMenu(children: [
+            UIAction(title: "1 undo", state: .on, handler: awayServeMinusClosure),
+            UIAction(title: "2 undo", handler: awayServeMinusClosure),
+            UIAction(title: "3 undo", handler: awayServeMinusClosure),
+           
+        ])
         
         HomeButton.menu = UIMenu(children: [
             UIAction(title: "Kill", state: .on, handler: homeClosure),
@@ -163,6 +211,54 @@ class ViewController: UIViewController {
         
     }
     
+    func awayServeMinusAction(selected: String){
+       
+        
+        switch selected {
+        case "1 undo":
+            if awayServeReceives[1]>0{
+                awayServeReceives[1]-=1
+            }
+        case "2 undo":
+            if awayServeReceives[2]>0{
+                awayServeReceives[2]-=1
+            }
+        case "3 undo":
+            if awayServeReceives[3]>0{
+                awayServeReceives[3]-=1
+            }
+       
+        default:
+            print("nothing")
+        }
+        updateStats()
+        
+    }
+    
+    func homeServeMinusAction(selected: String){
+       
+        
+        switch selected {
+        case "1 undo":
+            if homeServeReceives[1]>0{
+                homeServeReceives[1]-=1
+            }
+        case "2 undo":
+            if homeServeReceives[2]>0{
+                homeServeReceives[2]-=1
+            }
+        case "3 undo":
+            if homeServeReceives[3]>0{
+                homeServeReceives[3]-=1
+            }
+       
+        default:
+            print("nothing")
+        }
+        updateStats()
+        
+    }
+    
 
     func homeAction(selected: String){
         homeScore+=1
@@ -179,6 +275,7 @@ class ViewController: UIViewController {
             awayStats[6]+=1
         case "Ace":
             homeStats[2]+=1
+            awayServeReceives[0]+=1
         case "Opponent Attk Err":
             awayStats[3]+=1
             awayStats[6]+=1
@@ -207,6 +304,7 @@ class ViewController: UIViewController {
             awayStats[6]-=1
         case "Ace undo":
             homeStats[2]-=1
+            awayServeReceives[0]-=1
         case "Opponent Attk Err undo":
             awayStats[3]-=1
             awayStats[6]-=1
@@ -235,6 +333,7 @@ class ViewController: UIViewController {
             homeStats[6]-=1
         case "Ace undo":
             awayStats[2]-=1
+            homeServeReceives[0]-=1
         case "Opponent Attk Err undo":
             homeStats[3]-=1
             homeStats[6]-=1
@@ -264,6 +363,7 @@ class ViewController: UIViewController {
             homeStats[6]+=1
         case "Ace":
             awayStats[2]+=1
+            homeServeReceives[0]+=1
         case "Opponent Attk Err":
             homeStats[3]+=1
             homeStats[6]+=1
@@ -306,6 +406,38 @@ class ViewController: UIViewController {
         else{
             awayKillPctLabel.text = "0.000"
         }
+        
+        var total = 0
+        var num = 0
+        for i in 0..<homeServeReceives.count{
+            total += homeServeReceives[i]*i
+            num += homeServeReceives[i]
+        }
+        if num != 0{
+            var homeServe = Double(total)/Double(num)
+            var homeServeString = String(format: "%.2f", homeServe)
+            homeSrvAvgLabel.text = homeServeString
+        }
+        else{
+            homeSrvAvgLabel.text = "NA"
+        }
+        
+        total = 0
+        num = 0
+        for i in 0..<awayServeReceives.count{
+            total += awayServeReceives[i]*i
+            num += awayServeReceives[i]
+        }
+        
+        if num != 0{
+            var awayServe = Double(total)/Double(num)
+            var awayServeString = String(format: "%.2f", awayServe)
+            awaySrvAvgLabel.text = awayServeString
+        }
+        else{
+            awaySrvAvgLabel.text = "NA"
+        }
+        
     }
     
 
@@ -404,6 +536,8 @@ class ViewController: UIViewController {
             self.awayScore = 0
             self.homeStats = [0,0,0,0,0,0,0,0]
             self.awayStats = [0,0,0,0,0,0,0,0]
+            self.homeServeReceives = [0,0,0,0]
+            self.awayServeReceives = [0,0,0,0]
             self.updateStats()
             self.HomeButton.setTitle("\(self.homeScore)", for: .normal)
             self.HomeButtonPlain.setTitle("\(self.homeScore)", for: .normal)
@@ -485,8 +619,51 @@ class ViewController: UIViewController {
     }
     
     
+    @IBAction func homeOneAction(_ sender: UIButton) {
+        homeServeReceives[1]+=1
+        updateStats()
+    }
     
     
+    @IBAction func homeTwoAction(_ sender: UIButton) {
+        homeServeReceives[2]+=1
+        updateStats()
+    }
+    
+    
+    @IBAction func homeThreeAction(_ sender: UIButton) {
+        homeServeReceives[3]+=1
+        updateStats()
+    }
+    
+    
+    @IBAction func awayOneAction(_ sender: UIButton) {
+        awayServeReceives[1]+=1
+        updateStats()
+    }
+    
+    
+    @IBAction func awayTwoAction(_ sender: UIButton) {
+        awayServeReceives[2]+=1
+        updateStats()
+    }
+    
+    
+    @IBAction func awayThreeAction(_ sender: UIButton) {
+        awayServeReceives[3]+=1
+        updateStats()
+    }
+    
+    
+    @IBAction func homeOneMinusAction(_ sender: UILongPressGestureRecognizer) {
+        if sender.state == .began{
+            if homeServeReceives[1] > 0{
+                homeServeReceives[1]-=1
+                print(homeServeReceives[1])
+                updateStats()
+            }
+        }
+    }
     
 }
 
