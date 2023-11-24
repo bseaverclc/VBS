@@ -44,7 +44,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var AwayButton: UIButton!
     
     let feedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
-    
+    let feedbackGenerator2 = UIImpactFeedbackGenerator(style: .light)
     
     var homeKills = 0
     var homeBlocks = 0
@@ -590,6 +590,7 @@ class ViewController: UIViewController {
             self.awayServeReceives = [0,0,0,0]
             self.updateStats()
             self.HomeLabel.text = "\(self.homeScore)"
+            self.AwayLabel.text = "\(self.awayScore)"
             self.HomePlainLabel.text = "\(self.homeScore)"
             self.AwayPlainLabel.text = "\(self.awayScore)"
             
@@ -610,18 +611,21 @@ class ViewController: UIViewController {
     }
     
     @IBAction func homeDigAction(_ sender: UIButton) {
+        feedbackGenerator2.impactOccurred()
         homeStats[7]+=1
         updateStats()
     }
     
     
     @IBAction func awayAttackAction(_ sender: UIButton) {
+        feedbackGenerator.impactOccurred()
         awayStats[6]+=1
         updateStats()
     }
     
 
     @IBAction func awayDigsAction(_ sender: UIButton) {
+        feedbackGenerator2.impactOccurred()
         awayStats[7]+=1
         updateStats()
     }
