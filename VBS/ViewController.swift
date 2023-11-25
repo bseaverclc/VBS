@@ -9,6 +9,10 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
 
+    
+    @IBOutlet weak var AwayWhyLabel: UILabel!
+    @IBOutlet weak var HomeWhyLabel: UILabel!
+    
     @IBOutlet weak var awayTextField: UITextField!
     @IBOutlet weak var homeTextField: UITextField!
     @IBOutlet weak var AwayPlainLabel: UILabel!
@@ -92,6 +96,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
        
+        HomeWhyLabel.text = ""
+        AwayWhyLabel.text = ""
         homeStatsLabels.sort(by:{ $0.tag < $1.tag})
         awayStatsLabels.sort(by:{ $0.tag < $1.tag})
         
@@ -100,7 +106,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         AwayServeReceiveLabels.sort(by:{ $0.tag < $1.tag})
         
         for but in minusButtonOutlets{
-            but.titleLabel?.text = ""
+            but.setTitle("", for: .normal)
         }
         
         homeServeMinusOutlet.titleLabel?.text = ""
@@ -160,21 +166,21 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         
         HomeServeReceiveMinus.menu = UIMenu(children: [
-            UIAction(title: "1 undo", state: .on, handler: homeServeMinusClosure),
+            UIAction(title: "1 undo",  handler: homeServeMinusClosure),
             UIAction(title: "2 undo", handler: homeServeMinusClosure),
             UIAction(title: "3 undo", handler: homeServeMinusClosure),
            
         ])
         
         awayServeMinusOutlet.menu = UIMenu(children: [
-            UIAction(title: "1 undo", state: .on, handler: awayServeMinusClosure),
+            UIAction(title: "1 undo",  handler: awayServeMinusClosure),
             UIAction(title: "2 undo", handler: awayServeMinusClosure),
             UIAction(title: "3 undo", handler: awayServeMinusClosure),
            
         ])
         
         HomeButton.menu = UIMenu(children: [
-            UIAction(title: "Kill", state: .on, handler: homeClosure),
+            UIAction(title: "Kill",  handler: homeClosure),
             UIAction(title: "Block", handler: homeClosure),
             UIAction(title: "Ace", handler: homeClosure),
             UIAction(title: "Opponent Attk Err", handler: homeClosure),
@@ -183,8 +189,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
             UIAction(title: "???", handler: homeClosure),
         ])
         
+       
+        
         HomeMinusButton.menu = UIMenu(children: [
-            UIAction(title: "Kill undo", state: .on, handler: homeClosureUndo),
+            UIAction(title: "Kill undo", handler: homeClosureUndo),
             UIAction(title: "Block undo", handler: homeClosureUndo),
             UIAction(title: "Ace undo", handler: homeClosureUndo),
             UIAction(title: "Opponent Attk Err undo", handler: homeClosureUndo),
@@ -210,7 +218,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         
         
         AwayButton.menu = UIMenu(children: [
-            UIAction(title: "Kill", state: .on, handler: awayClosure),
+            UIAction(title: "Kill", handler: awayClosure),
             UIAction(title: "Block", handler: awayClosure),
             UIAction(title: "Ace", handler: awayClosure),
             UIAction(title: "Opponent Attk Err", handler: awayClosure),
@@ -291,11 +299,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func homeAction(selected: String){
         homeScore+=1
         HomeLabel.text = "\(homeScore)"
-        
+        AwayWhyLabel.text = ""
+        HomeWhyLabel.text = selected
         switch selected {
         case "Kill":
             homeStats[0]+=1
             homeStats[6]+=1
+            
         case "Block":
             homeStats[1]+=1
             awayStats[3]+=1
@@ -321,6 +331,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if homeScore > 0{
             homeScore-=1
         }
+        HomeWhyLabel.text = ""
         HomeLabel.text = "\(homeScore)"
         switch selected {
         case "Kill undo":
@@ -374,6 +385,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if awayScore > 0{
             awayScore-=1
         }
+        AwayWhyLabel.text = ""
         AwayLabel.text = "\(awayScore)"
         switch selected {
         case "Kill undo":
@@ -425,7 +437,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func awayAction(selected: String){
         awayScore+=1
         AwayLabel.text = "\(awayScore)"
-        
+        HomeWhyLabel.text = ""
+        AwayWhyLabel.text = selected
         switch selected {
         case "Kill":
             awayStats[0]+=1
@@ -623,7 +636,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.AwayLabel.text = "\(self.awayScore)"
             self.HomePlainLabel.text = "\(self.homeScore)"
             self.AwayPlainLabel.text = "\(self.awayScore)"
-            
+            self.HomeWhyLabel.text = ""
+            self.AwayWhyLabel.text = ""
         }
         let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
         
